@@ -1,0 +1,35 @@
+.card {
+  width: 25rem;
+  height: 13rem;
+  margin: 1rem;
+  box-shadow: 3px 3px #cccccc;
+}
+
+.card-body {
+  padding: 0.3rem;
+}
+
+.card-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.card-title.h5:first-letter {
+  text-transform: uppercase;
+}
+
+.title {
+  border-bottom: 1px solid;
+  flex: none; /* Don't leave too much sace around title */
+}
+
+.card-text {
+  text-align: left;
+}
+
+.icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 5px;
+}
