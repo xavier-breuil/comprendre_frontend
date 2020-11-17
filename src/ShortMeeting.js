@@ -2,6 +2,7 @@ import {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Card from 'react-bootstrap/Card';
+import moment from 'moment';
 
 import './ShortMeeting.css';
 import locate from './images/locate.png';
@@ -27,7 +28,9 @@ class ShortMeeting extends Component {
         <Card.Body>
           <Card.Text>{this.props.subTitle}</Card.Text>
           <Card.Text><img src={locate} alt="" className="icon"/>{this.props.place}</Card.Text>
-          <Card.Text><img src={calendar} alt="" className="icon"/>{this.props.startTime}</Card.Text>
+          <Card.Text><img src={calendar} alt="" className="icon"/>
+            {moment(this.props.startTime, 'YYYY-MM-DDThh:mm:ssZ').format('DD/MM/YYYY hh:mm')}
+          </Card.Text>
         </Card.Body>
       </Card>
     );
