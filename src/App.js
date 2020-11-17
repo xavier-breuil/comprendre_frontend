@@ -1,6 +1,9 @@
 import {Component} from 'react';
 
 import Alert from 'react-bootstrap/Alert';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 import './App.css';
 import backend from './apiConf.js';
@@ -53,18 +56,21 @@ class AppComponent extends Component {
     return (
       <div className="App">
         {alert}
-        <header className="App-header">
-          {this.state.meetingList.map(
-            meeting => (
-              <ShortMeeting
-                id={meeting.id}
-                place={meeting.place}
-                title={meeting.title}
-                subTitle={meeting.sub_title}
-                startTime={meeting.start_time}
-                key={meeting.id}/>
-            ))}
-        </header>
+        <Container>
+          <Row xs={1} md={2}>
+            {this.state.meetingList.map(
+              meeting => (
+                <Col key={meeting.id} className="d-flex justify-content-center">
+                  <ShortMeeting
+                    id={meeting.id}
+                    place={meeting.place}
+                    title={meeting.title}
+                    subTitle={meeting.sub_title}
+                    startTime={meeting.start_time}/>
+                </Col>
+              ))}
+          </Row>
+        </Container>
       </div>
     );
   }

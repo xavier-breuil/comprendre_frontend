@@ -12,6 +12,7 @@
 .card-title {
   font-size: 2rem;
   font-weight: bold;
+  text-align: center;
 }
 
 .card-title.h5:first-letter {
