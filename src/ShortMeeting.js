@@ -14,8 +14,13 @@ Meeting component that display only basic information.
 @returns {Component} - Meeting component to display in a list.
 */
 class ShortMeeting extends Component {
+  constructor(props) {
+    super(props);
+    this.toMeeting = this.toMeeting.bind(this);
+  }
+
   // Arrow function for binding.
-  toMeeting = () => {
+  toMeeting () {
     console.log(`go to meeting ${this.props.id}`);
   }
 
