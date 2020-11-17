@@ -5,6 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 import './App.css';
 import backend from './apiConf.js';
 import appTexts from './texts.js';
+import ShortMeeting from './ShortMeeting.js';
 
 /**
 App component.
@@ -14,13 +15,13 @@ App component.
 class AppComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {meetingList: []};
   }
 
   componentDidMount() {
     backend.get('conferences/')
       .then(resp => {
-        this.setState({meetingList: resp.data.results[0]});
+        this.setState({meetingList: resp.data.results});
       })
       .catch(err => {
         // TODO: implement way to warn admin
@@ -53,7 +54,15 @@ class AppComponent extends Component {
       <div className="App">
         {alert}
         <header className="App-header">
-          Search meetings
+          {this.state.meetingList.map(
+            meeting => (
+              <ShortMeeting
+                place={meeting.place}
+                title={meeting.title}
+                subTitle={meeting.sub_title}
+                startTime={meeting.start_time}
+                key={meeting.id}/>
+            ))}
         </header>
       </div>
     );
