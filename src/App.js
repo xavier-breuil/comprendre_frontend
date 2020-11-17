@@ -57,6 +57,7 @@ class AppComponent extends Component {
           {this.state.meetingList.map(
             meeting => (
               <ShortMeeting
+                id={meeting.id}
                 place={meeting.place}
                 title={meeting.title}
                 subTitle={meeting.sub_title}
