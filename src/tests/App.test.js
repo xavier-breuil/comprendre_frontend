@@ -4,6 +4,7 @@ import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 
 import App from '../App.js';
+import ShortMeeting from '../ShortMeeting.js';
 import backend from '../apiConf.js';
 import sinon from 'sinon';
 import appTexts from '../texts.js';
@@ -49,6 +50,7 @@ describe('App', () => {
     return respPromise.then(() => {
       expect(appWrapper.state('meetingList')).to.have.members([MEET_1, MEET_2]);
       expect(appWrapper.find(Col)).to.have.lengthOf(2);
+      expect(appWrapper.find(ShortMeeting)).to.have.lengthOf(2);
       expect(appWrapper.find(Alert)).to.have.lengthOf(0);
       backendStub.restore();
     }).finally(backendStub.restore);
@@ -66,6 +68,11 @@ describe('App', () => {
       expect(appWrapper.find(Col)).to.have.lengthOf(0);
       expect(appWrapper.find(Alert)).to.have.lengthOf(1);
       expect(appWrapper.find(Alert).text()).to.be.eql(appTexts.loadingError);
+    }).then(() => {
+      // Closing should make the alert disapear.
+      appWrapper.find(Alert).prop('onClose')();
+      expect(appWrapper.find(Alert)).to.have.lengthOf(0);
+      expect(appWrapper.state('aler')).to.be.undefined();
     }).finally(backendStub.restore);
   });
 });
