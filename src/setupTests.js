@@ -5,10 +5,12 @@ import chaiEnzyme from 'chai-enzyme';
 import createChaiJestDiff from 'chai-jest-diff';
 import {configure as configureEnzyme} from 'enzyme';
 import dirtyChai from 'dirty-chai';
+import sinonChai from 'sinon-chai';
 
 chai
   .use(dirtyChai)
   .use(createChaiJestDiff())
-  .use(chaiEnzyme());
+  .use(chaiEnzyme())
+  .use(sinonChai);
 
 configureEnzyme({adapter: new Adapter()});
