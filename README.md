@@ -21,7 +21,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 To check the coverage run (https://github.com/facebook/create-react-app/issues/7838)
 
-   ```npm test -- --coverage --watchAll=false```
+   ```npm test -- --coverage```
 
 ### `npm run build`
 

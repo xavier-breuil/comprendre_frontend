@@ -1,12 +1,14 @@
-import {Component} from 'react';
+import { Component } from 'react';
 
 import Alert from 'react-bootstrap/Alert';
+import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import InfinitScroll from 'react-infinite-scroller';
 
 import './App.css';
-import backend from './apiConf.js';
+import { backendConf } from './apiConf.js';
 import appTexts from './texts.js';
 import ShortMeeting from './ShortMeeting.js';
 
@@ -18,60 +20,76 @@ App component.
 class AppComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {meetingList: []};
+    this.state = {
+      meetingList: [],
+      nextData: `${backendConf.baseUrl}${backendConf.latestVersion}conferences/`
+    };
+    this.catchLoadingError = this.catchLoadingError.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
-  componentDidMount() {
-    backend.get('conferences/')
-      .then(resp => {
-        this.setState({meetingList: resp.data.results});
-      })
-      .catch(err => {
-        // TODO: implement way to warn admin
-        console.log(err);
-        this.setState({
-          alert: {
-            text: appTexts.loadingError,
-            variant: 'danger'
-          }
-        });
-      });
+  catchLoadingError(error) {
+    // TODO: implement way to warn admin
+    // eslint-disable-next-line no-console
+    console.log(error);
+    this.setState({
+      alert: {
+        text: appTexts.loadingError,
+        variant: 'danger'
+      }
+    });
   }
 
   generateAlert() {
     return (
       this.state.alert &&
-        <Alert
-          variant={this.state.alert.variant}
-          onClose={() => this.setState({alert: undefined})}
-          dismissible>
-          {this.state.alert.text}
-        </Alert>
+      <Alert
+        variant={this.state.alert.variant}
+        onClose={() => this.setState({ alert: undefined })}
+        dismissible>
+        {this.state.alert.text}
+      </Alert>
     );
   }
 
-  render () {
+  loadMore() {
+    axios.get(this.state.nextData).then(nextData => {
+      this.setState({
+        meetingList: this.state.meetingList.concat(nextData.data.results),
+        nextData: nextData.data.next
+      });
+    }).catch(this.catchLoadingError);
+  }
+
+  render() {
     const alert = this.generateAlert();
 
     return (
       <div className="App">
         {alert}
-        <Container>
-          <Row xs={1} md={2}>
-            {this.state.meetingList.map(
-              meeting => (
-                <Col key={meeting.id} className="d-flex justify-content-center">
-                  <ShortMeeting
-                    id={meeting.id}
-                    place={meeting.place}
-                    title={meeting.title}
-                    subTitle={meeting.sub_title}
-                    startTime={meeting.start_time}/>
-                </Col>
-              ))}
-          </Row>
-        </Container>
-      </div>
+        <InfinitScroll
+          pageStart={-1}
+          loadMore={this.loadMore}
+          hasMore={Boolean(this.state.nextData)}
+          loader={<div className="loader" key={0}>Chargement...</div>}
+        >
+          <Container>
+            <Row xs={1} md={2}>
+              {this.state.meetingList.map(
+                meeting => (
+                  <Col key={meeting.id} className="d-flex justify-content-center">
+                    <ShortMeeting
+                      id={meeting.id}
+                      place={meeting.place}
+                      title={meeting.title}
+                      subTitle={meeting.sub_title}
+                      startTime={meeting.start_time} />
+                  </Col>
+                ))}
+            </Row>
+          </Container >
+        </InfinitScroll>
+      </div >
     );
   }
 }
