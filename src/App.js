@@ -11,6 +11,7 @@ import './App.css';
 import { backendConf } from './apiConf.js';
 import appTexts from './texts.js';
 import ShortMeeting from './ShortMeeting.js';
+import SearchBar from './SearchBar.js';
 
 /**
 App component.
@@ -67,6 +68,7 @@ class AppComponent extends Component {
     return (
       <div className="App">
         {alert}
+        <SearchBar />
         <InfinitScroll
           pageStart={-1}
           loadMore={this.loadMore}

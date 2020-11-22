@@ -3,8 +3,11 @@
   --primary-color: #70b2dd;
 }
 
-.container {
+.App {
   background-color: var(--primary-color);
+}
+
+.container {
   margin: 0;
   max-width: 100%;
 }
