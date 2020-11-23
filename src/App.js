@@ -77,7 +77,7 @@ class AppComponent extends Component {
     const alert = this.generateAlert();
 
     return (
-      <div className="App">
+      <div>
         {alert}
         <SearchBar filterData={this.filterData} />
         <InfinitScroll

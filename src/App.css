@@ -3,8 +3,9 @@
   --primary-color: #70b2dd;
 }
 
-.App {
+html, body {
   background-color: var(--primary-color);
+  height: 100%;
 }
 
 .container {
