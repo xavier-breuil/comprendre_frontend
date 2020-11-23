@@ -23,10 +23,12 @@ class AppComponent extends Component {
     super(props);
     this.state = {
       meetingList: [],
-      nextData: `${backendConf.baseUrl}${backendConf.latestVersion}conferences/`
+      nextData: `${backendConf.baseUrl}${backendConf.latestVersion}conferences/`,
+      queryParam: {}
     };
     this.catchLoadingError = this.catchLoadingError.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.filterData = this.filterData.bind(this);
   }
 
   catchLoadingError(error) {
@@ -53,8 +55,17 @@ class AppComponent extends Component {
     );
   }
 
+  filterData(queryParam) {
+    // Updating the state will re-render and thus fetch data.
+    this.setState({
+      meetingList: [],
+      nextData: `${backendConf.baseUrl}${backendConf.latestVersion}conferences/`,
+      queryParam
+    });
+  }
+
   loadMore() {
-    axios.get(this.state.nextData).then(nextData => {
+    axios.get(this.state.nextData, {params: this.state.queryParam}).then(nextData => {
       this.setState({
         meetingList: this.state.meetingList.concat(nextData.data.results),
         nextData: nextData.data.next
@@ -68,7 +79,7 @@ class AppComponent extends Component {
     return (
       <div className="App">
         {alert}
-        <SearchBar />
+        <SearchBar filterData={this.filterData} />
         <InfinitScroll
           pageStart={-1}
           loadMore={this.loadMore}

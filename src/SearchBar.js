@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 registerLocale('fr', fr);
+import moment from 'moment';
 
 import appTexts from './texts.js';
 
@@ -14,7 +16,6 @@ class SearchBar extends Component {
     super(props);
     this.state = {
       city: '',
-      date: new Date(),
       topic: ''
     };
     this.search = this.search.bind(this);
@@ -25,7 +26,11 @@ class SearchBar extends Component {
     // Prevent default redirection.
     event.preventDefault();
     // TODO: fetch relevant meeting.
-    console.log(this.state);
+    this.props.filterData({
+      date: moment(this.state.date).format('YYYY-MM-DD'),
+      place: this.state.city,
+      tags: this.state.topic
+    });
   }
 
   inputChange(event) {
@@ -74,5 +79,8 @@ class SearchBar extends Component {
     );
   }
 }
+SearchBar.propTypes = {
+  filterData: PropTypes.func
+};
 
 export default SearchBar;
