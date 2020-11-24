@@ -52,6 +52,7 @@ class SearchBar extends Component {
               placeholder={appTexts.city}
               value={this.state.city}
               onChange={this.inputChange}
+              autoComplete="off"
             />
           </Col>
           <Col xs="auto">
@@ -62,6 +63,7 @@ class SearchBar extends Component {
               placeholder={appTexts.topic}
               value={this.topic}
               onChange={this.inputChange}
+              autoComplete="off"
             />
           </Col>
           <Col xs="auto">
@@ -73,6 +75,7 @@ class SearchBar extends Component {
               selected={this.state.date}
               onChange={date => this.setState({ date })}
               className="form-control m-2"
+              autoComplete="off"
             />
           </Col>
           <Col xs="auto">
