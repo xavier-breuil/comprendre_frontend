@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Alert from 'react-bootstrap/Alert';
@@ -8,6 +9,7 @@ import App from '../App.js';
 import ShortMeeting from '../ShortMeeting.js';
 import sinon from 'sinon';
 import appTexts from '../texts.js';
+import { backendConf } from '../apiConf.js';
 
 const MEET_1 = {
   'admin': null,
@@ -86,5 +88,16 @@ describe('App', () => {
       expect(appWrapper.find(Alert)).to.have.lengthOf(0);
       expect(appWrapper.state('aler')).to.be.undefined();
     });
+  });
+
+  it('should set state when query params are updated', () => {
+    const appWrapper = shallow(<App />);
+    const queryParams = {
+      city: 'Carcassonne'
+    };
+    appWrapper.instance().filterData(queryParams);
+    expect(appWrapper.state('meetingList')).to.eql([]);
+    expect(appWrapper.state('nextData')).to.eql(`${backendConf.baseUrl}${backendConf.latestVersion}conferences/`);
+    expect(appWrapper.state('queryParam')).to.eql(queryParams);
   });
 });

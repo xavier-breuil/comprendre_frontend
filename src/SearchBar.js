@@ -25,9 +25,12 @@ class SearchBar extends Component {
   search(event) {
     // Prevent default redirection.
     event.preventDefault();
-    // TODO: fetch relevant meeting.
+    let dateParam = '';
+    if (this.state.date) {
+      dateParam = moment(this.state.date).format('YYYY-MM-DD');
+    }
     this.props.filterData({
-      date: moment(this.state.date).format('YYYY-MM-DD'),
+      date: dateParam,
       place: this.state.city,
       tags: this.state.topic
     });
@@ -45,6 +48,7 @@ class SearchBar extends Component {
             <Form.Control
               className="m-2"
               name="city"
+              id="city-input"
               placeholder={appTexts.city}
               value={this.state.city}
               onChange={this.inputChange}
@@ -54,6 +58,7 @@ class SearchBar extends Component {
             <Form.Control
               className="m-2"
               name="topic"
+              id="topic-input"
               placeholder={appTexts.topic}
               value={this.topic}
               onChange={this.inputChange}
@@ -64,13 +69,14 @@ class SearchBar extends Component {
               dateFormat="dd/MM/yyyy"
               locale="fr"
               name="date"
+              id="date-input"
               selected={this.state.date}
               onChange={date => this.setState({ date })}
               className="form-control m-2"
             />
           </Col>
           <Col xs="auto">
-            <Button className="m-2" type="submit">
+            <Button className="m-2" type="submit" id="filter-button">
               {appTexts.search}
             </Button>
           </Col>
