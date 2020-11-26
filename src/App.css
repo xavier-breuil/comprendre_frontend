@@ -1,6 +1,8 @@
 /* Variable definition */
 :root {
   --primary-color: #70b2dd;
+  --primary-lighter: #90d2fd;
+  --primary-darker: #30729d;
 }
 
 html, body {
@@ -15,4 +17,9 @@ html, body {
 
 .alert {
   margin-bottom: 0;
+}
+
+.primary-button {
+  background-color: var(--primary-darker);
+  border: none;
 }
