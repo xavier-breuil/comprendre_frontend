@@ -6,12 +6,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import InfinitScroll from 'react-infinite-scroller';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 
 import './App.css';
 import { backendConf } from './apiConf.js';
 import appTexts from './texts.js';
-import ShortMeeting from './ShortMeeting.js';
+import MeetingCard from './ShortMeeting.js';
 import SearchBar from './SearchBar.js';
+import Meeting from './Meeting.js';
 
 /**
 App component.
@@ -65,7 +70,7 @@ class AppComponent extends Component {
   }
 
   loadMore() {
-    axios.get(this.state.nextData, {params: this.state.queryParam}).then(nextData => {
+    axios.get(this.state.nextData, { params: this.state.queryParam }).then(nextData => {
       this.setState({
         meetingList: this.state.meetingList.concat(nextData.data.results),
         nextData: nextData.data.next
@@ -77,32 +82,37 @@ class AppComponent extends Component {
     const alert = this.generateAlert();
 
     return (
-      <div>
-        {alert}
-        <SearchBar filterData={this.filterData} />
-        <InfinitScroll
-          pageStart={-1}
-          loadMore={this.loadMore}
-          hasMore={Boolean(this.state.nextData)}
-          loader={<div className="loader" key={0}>Chargement...</div>}
-        >
-          <Container>
-            <Row xs={1} md={2}>
-              {this.state.meetingList.map(
-                meeting => (
-                  <Col key={meeting.id} className="d-flex justify-content-center">
-                    <ShortMeeting
-                      id={meeting.id}
-                      place={meeting.place}
-                      title={meeting.title}
-                      subTitle={meeting.sub_title}
-                      startTime={meeting.start_time} />
-                  </Col>
-                ))}
-            </Row>
-          </Container >
-        </InfinitScroll>
-      </div >
+      <Router>
+        <Route exact path="/">
+          <div>
+            {alert}
+            <SearchBar filterData={this.filterData} />
+            <InfinitScroll
+              pageStart={-1}
+              loadMore={this.loadMore}
+              hasMore={Boolean(this.state.nextData)}
+              loader={<div className="loader" key={0}>Chargement...</div>}
+            >
+              <Container>
+                <Row xs={1} md={2}>
+                  {this.state.meetingList.map(
+                    meeting => (
+                      <Col key={meeting.id} className="d-flex justify-content-center">
+                        <MeetingCard
+                          id={meeting.id}
+                          place={meeting.place}
+                          title={meeting.title}
+                          subTitle={meeting.sub_title}
+                          startTime={meeting.start_time} />
+                      </Col>
+                    ))}
+                </Row>
+              </Container >
+            </InfinitScroll>
+          </div >
+        </Route>
+        <Route path="/meeting/:id" component={Meeting} />
+      </Router>
     );
   }
 }

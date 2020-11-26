@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Card from 'react-bootstrap/Card';
 import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 import './ShortMeeting.css';
 import locate from './images/locate.png';
@@ -19,9 +20,8 @@ class ShortMeeting extends Component {
     this.toMeeting = this.toMeeting.bind(this);
   }
 
-  // Arrow function for binding.
   toMeeting () {
-    console.log(`go to meeting ${this.props.id}`);
+    this.props.history.push(`/meeting/${this.props.id}`);
   }
 
   render () {
@@ -43,6 +43,7 @@ class ShortMeeting extends Component {
 }
 ShortMeeting.propTypes = {
   // not deserialized yet
+  history: PropTypes.object,
   id: PropTypes.number,
   place: PropTypes.string,
   startTime: PropTypes.string,
@@ -50,4 +51,5 @@ ShortMeeting.propTypes = {
   title: PropTypes.string
 };
 
-export default ShortMeeting;
+const MeetingCard = withRouter(ShortMeeting);
+export default MeetingCard;
