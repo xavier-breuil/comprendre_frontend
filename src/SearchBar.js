@@ -79,7 +79,7 @@ class SearchBar extends Component {
             />
           </Col>
           <Col xs="auto">
-            <Button className="m-2" type="submit" id="filter-button">
+            <Button className="m-2 primary-button" type="submit" id="filter-button">
               {appTexts.search}
             </Button>
           </Col>
