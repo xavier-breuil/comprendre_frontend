@@ -38,10 +38,10 @@ class Meeting extends Component {
         <h1>{this.state.title}</h1>
         <h2>{this.state.sub_title}</h2>
         <div className="details">
-          <div className="std-margin text-capitalize">
+          <div className="std-margin text-capitalize" id="place">
             <img src={locate} alt="" className="icon"/>{this.state.place}
           </div>
-          <div className="std-margin">
+          <div className="std-margin" id="date">
             <img src={calendar} alt="" className="icon"/>{moment(this.state.start_time, 'YYYY-MM-DDThh:mm:ssZ').format('DD/MM/YYYY hh:mm')}
           </div>
         </div>
@@ -49,7 +49,7 @@ class Meeting extends Component {
           <div className="std-margin text-capitalize font-weight-bold">
             {appTexts.description}
           </div>
-          <div className="std-margin">
+          <div className="std-margin" id="description">
             {this.state.description}
           </div>
         </div>
