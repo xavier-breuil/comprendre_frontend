@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {shallow} from 'enzyme';
 import Card from 'react-bootstrap/Card';
 
-import ShortMeeting from '../ShortMeeting.js';
+import {ShortMeeting} from '../ShortMeeting.js';
 import sinon from 'sinon';
 
 const sandbox = sinon.createSandbox();
@@ -14,18 +14,19 @@ describe('ShortMeeting', () => {
   });
 
   it('should redirect when is clicked.', () => {
-    // Need to stub prototype according to comment on 5 jan 2018 https://github.com/enzymejs/enzyme/issues/944
-    const toMeetingSpy = sandbox.stub(ShortMeeting.prototype, 'toMeeting');
-    toMeetingSpy.callsFake(() => {});
+    // We do not test history here, just the fact that it has been called.
+    const toMeetingSpy = sandbox.spy();
+    const fakeHistory = {push: toMeetingSpy};
     const shortMeetingWrapper = shallow(
       <ShortMeeting
         id={1}
         place="Toulouse"
         startTime="2020-04-01T10:00:00Z"
         subtitle="beginner class"
-        title="learn reactjs"/>);
+        title="learn reactjs"
+        history={fakeHistory}/>);
 
     shortMeetingWrapper.find(Card).simulate('click');
-    expect(toMeetingSpy).to.have.been.calledOnce();
+    expect(toMeetingSpy).to.have.been.calledOnceWith('/meeting/1');
   });
 });
